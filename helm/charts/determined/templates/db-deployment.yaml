@@ -19,7 +19,6 @@ spec:
         app: determined-db-{{ .Release.Name }}
         determined-system: db
     spec:
-      # priorityClassName: determined-system-priority
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
