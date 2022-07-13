@@ -17,7 +17,7 @@ masterPort: 8080
 # users will typically have to configure an Ingress to make the Determined master reachable from
 # outside the cluster. NodePort service is recommended when configuring TLS termination in a
 # load-balancer.
-useNodePortForMaster: false
+useNodePortForMaster: true
 
 # Enable route support for Openshift by setting enabled to true. Configure tls termination (i.e edge) if needed.
 # openshiftRoute:
@@ -128,8 +128,8 @@ maxSlotsPerPod: 8
   # cpu: 7
 
 # Memory and CPU requirements for the master instance. Should be adjusted for scale.
-masterCpuRequest: 2
-masterMemRequest: 8Gi
+masterCpuRequest: 8
+masterMemRequest: 16Gi
 
 ## Configure the task container defaults. Tasks include trials, commands, TensorBoards, notebooks,
 ## and shells. For all task containers, shm_size_bytes and network_mode are configurable. For
