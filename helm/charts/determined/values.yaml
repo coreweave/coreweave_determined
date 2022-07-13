@@ -38,17 +38,17 @@ db:
   # hostAddress:
 
   # Required parameters, whether you are using your own DB or a Determined DB.
-  name: determined
-  user: postgres
-  password: postgres
+  name: coreweave_determined
+  user: coreweave_postgres
+  password: coreweave_postgres
   port: 5432
 
   # Only used for Determined DB deployment. Configures the size of the PersistentVolumeClaim for the
   # Determined deployed database, as well as the CPU and memory requirements. Should be adjusted for
   # scale.
-  storageSize: 30Gi
-  cpuRequest: 2
-  memRequest: 8Gi
+  storageSize: 100Gi
+  cpuRequest: 4
+  memRequest: 16Gi
 
   # useNodePortForDB configures whether ClusterIP or NodePort service type is used for the
   # Determined deployed DB. By default ClusterIP is used.
@@ -91,11 +91,10 @@ checkpointStorage:
   
   # For storing in S3.
   type: s3
-  bucket: model-checkpoints
-  accessKey: TV8MB1K8OJZXY1K00GEG
-  secretKey: v6WpwwGqTZH5ap7Bq2cYcdDG3DkNQ5le3u3vzQDz
-  endpointUrl: http://s3.ord1.coreweave.com
-  prefix: determined-model-checkpoints
+  bucket: {{.Values.s3.bucket}}
+  accessKey: {{.Values.s3.accessKey}} 
+  secretKey: {{.Values.s3.secretKey}} 
+  endpointUrl: {{.Values.s3.endpointUrl}}
 
   # For storing in Azure Blob Storage with a connection string.
   # Do NOT use if already using Azure Blob Storage with account URL
@@ -129,7 +128,7 @@ maxSlotsPerPod: 8
 
 # Memory and CPU requirements for the master instance. Should be adjusted for scale.
 masterCpuRequest: 8
-masterMemRequest: 16Gi
+masterMemRequest: 32Gi
 
 ## Configure the task container defaults. Tasks include trials, commands, TensorBoards, notebooks,
 ## and shells. For all task containers, shm_size_bytes and network_mode are configurable. For
@@ -143,8 +142,42 @@ taskContainerDefaults:
   # (CPU notebooks, TensorBoards, zero-slot commands). If a pod spec is defined for an individual
   # task, that pod spec will replace the default one that is defined here. See
   # https://docs:determined.ai/latest/topic-guides/custom-pod-specs.html for more details.
-  # cpuPodSpec:
-  # gpuPodSpec:
+  cpuPodSpec:
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      labels:
+        customLabel: cw-cpu-determined-pod
+    spec:
+      containers:
+        - name: determined-cpu-container
+          resources:
+            requests:
+              memory: {{.Values.resources.cpu}}
+              cpu: {{.Values.resources.memory}}
+            limits:
+              memory: {{.Values.resources.cpu}}
+              cpu: {{.Values.resources.memory}}
+  gpu_pod_spec:
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      labels:
+        customLabel: cw-gpu-determined-pod
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                - key: topology.kubernetes.io/region
+                  operator: In
+                  values:
+                    - {{.Values.region}}
+                - key: gpu.nvidia.com/class
+                  operator: In
+                  values:
+                    - {{.Values.resources.gpu_type}}
 
 
   # Configure default Docker images for all GPU tasks (experiments, notebooks, commands) and
@@ -166,7 +199,7 @@ telemetry:
 # clusterName: Dev
 
 # defaultPassword sets the password for the admin and determined user accounts.
-# defaultPassword:
+# defaultPassword: determined-coreweave
 
 ## Configure how trial logs are stored.
 # logging:
