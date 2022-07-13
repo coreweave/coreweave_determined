@@ -23,6 +23,8 @@ rules:
   resources:
   - pods
   - configmaps
+  - pods/status
+  - pods/log
   verbs:
   - create
   - get

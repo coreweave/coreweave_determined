@@ -5,7 +5,6 @@
         "type": "string",
         "enum": [
           "ORD1",
-          "EWR1",
           "LAS1",
           "LGA1"
         ],
@@ -18,30 +17,28 @@
       },
       "resources": {
         "type": "object",
-        "title": "Resources",
+        "title": "Default Resources",
         "form": true,
         "properties": {
           "cpu": {
             "type": "string",
             "form":"true",
-            "title": "cpu",
+            "title": "vCPU Request",
             "description": "Amount of CPU to provide",
             "render":"slider",
-            "sliderMin": 8000,
-            "sliderMax": 32000,
-            "sliderUnit": "m",
-            "default": "8000m"
+            "sliderMin": 1,
+            "sliderMax": 128,
+            "sliderUnit": "vCPUs"
           },
           "memory": {
               "type": "string",
               "form":"true",
-              "title": "memory",
+              "title": "Memory Request",
               "description": "Amount of Memory to provide",
               "render":"slider",
-              "sliderMin": 8000,
-              "sliderMax": 32000,
-              "sliderUnit": "Mi",
-              "default": "32000Mi"
+              "sliderMin": 4,
+              "sliderMax": 1000,
+              "sliderUnit": "Gi"
           },
           "gpu_type": {
             "type": "string",
@@ -50,6 +47,7 @@
               "RTX_A5000",
               "RTX_A6000",
               "A100_NVLINK",
+              "A100_NVLINK_80GB",
               "A100_PCIE_40GB",
               "A100_PCIE_80GB",
               "A40",
@@ -59,7 +57,6 @@
             ],
             "form": true,
             "title": "GPU Type",
-            "default": "RTX_A5000",
             "description": "Please select the default GPU type for your workloads."
           }
         }
@@ -73,7 +70,7 @@
             "type": "string",
             "form": "true", 
             "title": "Bucket Name",
-            "description": "The name of the S3 bucket to store Model Checkpoints."
+            "description": "S3 is used for storage of model checkpoints and optionally for training data."
           },
           "accessKey": {
             "type": "string",
@@ -87,12 +84,16 @@
             "title": "Secret Key",
             "description": "Secret Key for S3"
           },
-          "endpointUrl": {
+          "storageSize": {
             "type": "string",
             "form": "true", 
-            "title": "Endpoint URL",
-            "description": "Endpoint URL for S3"
-          }
+            "title": "S3 Storage Size",
+            "description": "S3 Checkpoint/Training Data Storage Size",
+            "render":"slider",
+            "sliderMin": 10,
+            "sliderMax": 1000,
+            "sliderUnit": "Gi"
+            }
         }
       }
     },

@@ -46,7 +46,9 @@ db:
   # Only used for Determined DB deployment. Configures the size of the PersistentVolumeClaim for the
   # Determined deployed database, as well as the CPU and memory requirements. Should be adjusted for
   # scale.
+  
   storageSize: 100Gi
+  {{- else }}
   cpuRequest: 4
   memRequest: 16Gi
 
@@ -94,8 +96,7 @@ checkpointStorage:
   bucket: {{.Values.s3.bucket}}
   accessKey: {{.Values.s3.accessKey}} 
   secretKey: {{.Values.s3.secretKey}} 
-  endpointUrl: {{.Values.s3.endpointUrl}}
-
+  
   # For storing in Azure Blob Storage with a connection string.
   # Do NOT use if already using Azure Blob Storage with account URL
   # type: azure
@@ -143,11 +144,6 @@ taskContainerDefaults:
   # task, that pod spec will replace the default one that is defined here. See
   # https://docs:determined.ai/latest/topic-guides/custom-pod-specs.html for more details.
   cpuPodSpec:
-    apiVersion: v1
-    kind: Pod
-    metadata:
-      labels:
-        customLabel: cw-cpu-determined-pod
     spec:
       containers:
         - name: determined-cpu-container
@@ -159,11 +155,6 @@ taskContainerDefaults:
               memory: {{.Values.resources.cpu}}
               cpu: {{.Values.resources.memory}}
   gpu_pod_spec:
-    apiVersion: v1
-    kind: Pod
-    metadata:
-      labels:
-        customLabel: cw-gpu-determined-pod
     spec:
       affinity:
         nodeAffinity:
@@ -173,12 +164,20 @@ taskContainerDefaults:
                 - key: topology.kubernetes.io/region
                   operator: In
                   values:
-                    - {{.Values.region}}
+                    - ORD1
                 - key: gpu.nvidia.com/class
                   operator: In
                   values:
                     - {{.Values.resources.gpu_type}}
-
+      containers:
+        - name: determined-gpu-container
+          resources:
+            requests:
+              memory: {{.Values.resources.cpu}}
+              cpu: {{.Values.resources.memory}}
+            limits:
+              memory: {{.Values.resources.cpu}}
+              cpu: {{.Values.resources.memory}}
 
   # Configure default Docker images for all GPU tasks (experiments, notebooks, commands) and
   # CPU tasks (CPU notebooks, TensorBoards, zero-slot commands). If a Docker image is defined
