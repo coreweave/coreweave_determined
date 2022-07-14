@@ -13,18 +13,6 @@
 {{- default "ORD1" .Values.region }}
 {{- end -}}
 
-{{- define "determined.bucket" -}}
-{{ .Values.s3.bucket }}
-{{- end -}}
-
-{{- define "determined.accessKey" -}}
-{{ .Values.s3.accessKey }}
-{{- end -}}
-
-{{- define "determined.secretKey" -}}
-{{ .Values.s3.secretKey }}
-{{- end -}}
-
 {{- define "determined.storageSize" -}}
 {{- if .Values.db.storageSize }}
 {{ .Values.db.storageSize }}

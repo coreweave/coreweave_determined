@@ -16,9 +16,9 @@ data:
       bucket: {{ required "A valid Values.checkpointStorage.bucket entry is required!" .Values.checkpointStorage.bucket }}
       prefix: {{ .Values.checkpointStorage.prefix | quote }}
       {{- else if eq .Values.checkpointStorage.type "s3" }}
-      bucket: {{ include "determined.bucket" . }}
-      access_key: {{ include "determined.accessKey" . | quote }}
-      secret_key: {{ include "determined.secretKey" . | quote }}
+      bucket: {{ .Values.s3.bucket }}
+      access_key: {{ .Values.s3.accessKey | quote }}
+      secret_key: {{ .Values.s3.secretKey | quote }}
       endpoint_url: {{ .Values.checkpointStorage.endpointUrl | quote }}
       prefix: {{ .Values.checkpointStorage.prefix | quote }}
       {{- else if eq .Values.checkpointStorage.type "azure" }}

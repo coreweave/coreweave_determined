@@ -30,7 +30,7 @@ db:
   # hostAddress:
 
   # Required parameters, whether you are using your own DB or a Determined DB.
-  name: coreweave_determined
+  name: coreweave_determined_db
   user: coreweave_postgres
   password: coreweave_postgres
   port: 5432

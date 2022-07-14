@@ -89,4 +89,4 @@ spec:
               - key: topology.kubernetes.io/region
                 operator: In
                 values:
-                - {{.Values.region}}
+                - {{ include "determined.region" . }}
