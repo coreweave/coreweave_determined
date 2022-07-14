@@ -11,7 +11,7 @@ metadata:
   name: determined-master-{{ .Release.Name }}
 spec:
   rules:
-  - host: {{ .Release.Name }}.{{ .Release.Namespace }}.ord1.ingress.coreweave.cloud
+  - host: {{ .Release.Name }}.{{ .Release.Namespace }}.{{ .Values.region | lower }}.ingress.coreweave.cloud
     http: 
       paths:
       - backend:
@@ -21,5 +21,5 @@ spec:
         pathType: ImplementationSpecific
   tls:
   - hosts:
-    - {{ .Release.Name }}.{{ .Release.Namespace }}.ord1.ingress.coreweave.cloud
+    - {{ .Release.Name }}.{{ .Release.Namespace }}.{{ .Values.region | lower }}.ingress.coreweave.cloud
     secretName: determined-tls 

@@ -6,8 +6,8 @@ region: ORD1
 
 # Default resources to use for CPU/GPU pods.
 resources:
-  cpu: 8
-  memory: 32Gi
+  cpu: "4"
+  memory: 8Gi
   gpu_type: RTX_A5000
 
 # Install Determined enterprise edition.
