@@ -83,12 +83,19 @@
             "form": "true", 
             "title": "Secret Key",
             "description": "Secret Key for S3"
-          },
+          }
+        }
+      },
+      "db": {
+        "type": "object",
+        "form": "true",
+        "title": "DB Configuration",
+        "properties": {
           "storageSize": {
             "type": "string",
             "form": "true", 
-            "title": "S3 Storage Size",
-            "description": "S3 Checkpoint/Training Data Storage Size",
+            "title": "DB Storage Size",
+            "description": "DB Storage Size for storing code, metadata and checkpoint information.",
             "render":"slider",
             "sliderMin": 10,
             "sliderMax": 1000,

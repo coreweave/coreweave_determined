@@ -13,7 +13,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: {{ required  "A valid Values.db.storageSize entry is required!" .Values.db.storageSize }}
+      storage: {{ include "determined.storageSize" }}
   {{- if .Values.db.storageClassName }}
   storageClassName: {{ .Values.db.storageClassName }}
   {{ end }}

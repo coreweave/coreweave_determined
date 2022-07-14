@@ -11,14 +11,6 @@ imagePullSecretName:
 # masterPort configures the port at which the Determined master listens for connections on.
 masterPort: 8080
 
-# When useNodePortForMaster is set to false (default), a LoadBalancer service is deployed to make
-# the Determined master reachable from outside the cluster. When useNodePortForMaster is set to
-# true, the master will instead be exposed behind a NodePort service. When using a NodePort service
-# users will typically have to configure an Ingress to make the Determined master reachable from
-# outside the cluster. NodePort service is recommended when configuring TLS termination in a
-# load-balancer.
-useNodePortForMaster: true
-
 # Enable route support for Openshift by setting enabled to true. Configure tls termination (i.e edge) if needed.
 # openshiftRoute:
   # enabled:
@@ -47,8 +39,6 @@ db:
   # Determined deployed database, as well as the CPU and memory requirements. Should be adjusted for
   # scale.
   
-  storageSize: 100Gi
-  {{- else }}
   cpuRequest: 4
   memRequest: 16Gi
 
@@ -93,9 +83,6 @@ checkpointStorage:
   
   # For storing in S3.
   type: s3
-  bucket: {{.Values.s3.bucket}}
-  accessKey: {{.Values.s3.accessKey}} 
-  secretKey: {{.Values.s3.secretKey}} 
   
   # For storing in Azure Blob Storage with a connection string.
   # Do NOT use if already using Azure Blob Storage with account URL
@@ -143,41 +130,6 @@ taskContainerDefaults:
   # (CPU notebooks, TensorBoards, zero-slot commands). If a pod spec is defined for an individual
   # task, that pod spec will replace the default one that is defined here. See
   # https://docs:determined.ai/latest/topic-guides/custom-pod-specs.html for more details.
-  cpuPodSpec:
-    spec:
-      containers:
-        - name: determined-cpu-container
-          resources:
-            requests:
-              memory: {{.Values.resources.cpu}}
-              cpu: {{.Values.resources.memory}}
-            limits:
-              memory: {{.Values.resources.cpu}}
-              cpu: {{.Values.resources.memory}}
-  gpu_pod_spec:
-    spec:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                - key: topology.kubernetes.io/region
-                  operator: In
-                  values:
-                    - ORD1
-                - key: gpu.nvidia.com/class
-                  operator: In
-                  values:
-                    - {{.Values.resources.gpu_type}}
-      containers:
-        - name: determined-gpu-container
-          resources:
-            requests:
-              memory: {{.Values.resources.cpu}}
-              cpu: {{.Values.resources.memory}}
-            limits:
-              memory: {{.Values.resources.cpu}}
-              cpu: {{.Values.resources.memory}}
 
   # Configure default Docker images for all GPU tasks (experiments, notebooks, commands) and
   # CPU tasks (CPU notebooks, TensorBoards, zero-slot commands). If a Docker image is defined
