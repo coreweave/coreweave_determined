@@ -12,6 +12,7 @@
 
 {{- define "determined.cpuPodSpec" -}}
 spec:
+    priorityClassName: determined-system-priority
     containers:
     - name: determined-cpu-container
         resources:
@@ -29,19 +30,20 @@ spec:
 
 {{- define "determined.gpuPodSpec" -}}
 spec:
+    priorityClassName: determined-system-priority
     affinity:
-    nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-            - matchExpressions:
-            - key: topology.kubernetes.io/region
-                operator: In
-                values:
-                - {{ include "determined.region" . }}
-            - key: gpu.nvidia.com/class
-                operator: In
-                values:
-                - {{ include "determined.gpuType" . }}
+        nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+                - matchExpressions:
+                - key: topology.kubernetes.io/region
+                    operator: In
+                    values:
+                    - {{ include "determined.region" . }}
+                - key: gpu.nvidia.com/class
+                    operator: In
+                    values:
+                    - {{ include "determined.gpuType" . }}
     containers:
     - name: determined-gpu-container
         resources:

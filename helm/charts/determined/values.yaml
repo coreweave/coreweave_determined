@@ -83,6 +83,7 @@ checkpointStorage:
   
   # For storing in S3.
   type: s3
+  endpointUrl: http://s3.ord1.coreweave.com
   
   # For storing in Azure Blob Storage with a connection string.
   # Do NOT use if already using Azure Blob Storage with account URL

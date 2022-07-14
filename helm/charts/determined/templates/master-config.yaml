@@ -19,7 +19,7 @@ data:
       bucket: {{ .Values.s3.bucket }}
       access_key: {{ .Values.s3.accessKey }}
       secret_key: {{ .Values.s3.secretKey }}
-      endpoint_url: {{ .Values.checkpointStorage.endpointUrl | quote }}
+      endpoint_url: {{ .Values.s3.endpointUrl | quote }}
       prefix: {{ .Values.checkpointStorage.prefix | quote }}
       {{- else if eq .Values.checkpointStorage.type "azure" }}
       {{- if and .Values.checkpointStorage.connection_string .Values.checkpointStorage.account_url }}
