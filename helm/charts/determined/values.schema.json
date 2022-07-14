@@ -88,7 +88,7 @@
             "type": "string",
             "form": "true", 
             "title": "Endpoint URL for S3",
-            "description": "Format: http://s3.<REGION>.coreweave.com. Ex: http://s3.ord1.coreweave.com"
+            "description": "Format: http://s3.<region>.coreweave.com. Ex: http://s3.ord1.coreweave.com"
           }
         }
       }

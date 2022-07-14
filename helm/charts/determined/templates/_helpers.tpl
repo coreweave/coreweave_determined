@@ -6,10 +6,6 @@
 8081
 {{- end -}}
 
-{{- define "determined.region" -}}
-{{ .Values.region | default "ORD1" }}
-{{- end -}}
-
 {{- define "determined.cpuPodSpec" -}}
 spec:
     priorityClassName: determined-system-priority
@@ -17,15 +13,11 @@ spec:
     - name: determined-cpu-container
         resources:
             requests:
-                memory: {{ .Values.resources.memory  | default "32Gi" }}
-                cpu: {{ .Values.resources.cpu | default "8" }}
+                memory: {{ .Values.resources.memory }}
+                cpu: {{ .Values.resources.cpu }}
             limits:
-                memory: {{ .Values.resources.memory | default "32Gi" }}
-                cpu: {{ .Values.resources.cpu | default "8" }}
-{{- end -}}
-
-{{- define "determined.gpuType" -}}
-{{ .Values.resources.gpu_type | default "RTX_A5000" }}
+                memory: {{ .Values.resources.memory }}
+                cpu: {{ .Values.resources.cpu }}
 {{- end -}}
 
 {{- define "determined.gpuPodSpec" -}}
@@ -39,18 +31,18 @@ spec:
                 - key: topology.kubernetes.io/region
                     operator: In
                     values:
-                    - {{ include "determined.region" . }}
+                    - {{ .Values.region }}
                 - key: gpu.nvidia.com/class
                     operator: In
                     values:
-                    - {{ include "determined.gpuType" . }}
+                    - {{ .Values.resources.gpu_type }}
     containers:
     - name: determined-gpu-container
         resources:
             requests:
-                memory: {{ .Values.resources.memory  | default "32Gi" }}
-                cpu: {{ .Values.resources.cpu | default "8" }}
+                memory: {{ .Values.resources.memory }}
+                cpu: {{ .Values.resources.cpu }}
             limits:
-                memory: {{ .Values.resources.memory | default "32Gi" }}
-                cpu: {{ .Values.resources.cpu | default "8" }}
+                memory: {{ .Values.resources.memory }}
+                cpu: {{ .Values.resources.cpu }}
 {{- end -}}

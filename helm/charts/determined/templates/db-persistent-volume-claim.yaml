@@ -15,6 +15,6 @@ spec:
     requests:
       storage: {{ .Values.db.storageSize }}
   {{- if .Values.db.storageClassName }}
-  storageClassName: block-nvme-{{ include "determined.region" . | lower }}
+  storageClassName: block-nvme-{{ .Values.region | lower }}
   {{ end }}
 {{ end }}

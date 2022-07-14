@@ -1,6 +1,15 @@
 # The image registry to use. Defaults to the determinedai repository in DockerHub.
 imageRegistry: determinedai
 
+# Default region for CoreWeave
+region: ORD1
+
+# Default resources to use for CPU/GPU pods.
+resources:
+  cpu: 8
+  memory: 32Gi
+  gpu_type: RTX_A5000
+
 # Install Determined enterprise edition.
 enterpriseEdition: false
 
@@ -60,7 +69,6 @@ db:
   # resourceType: <secret/configMap>
   # certResourceName: <secret/configMap name>
 
-
 # checkpointStorage controls where checkpoints are stored. Supported types include `shared_fs`,
 # `gcs`, and `s3`.
 checkpointStorage:
@@ -83,7 +91,6 @@ checkpointStorage:
   
   # For storing in S3.
   type: s3
-  endpointUrl: http://s3.ord1.coreweave.com
   
   # For storing in Azure Blob Storage with a connection string.
   # Do NOT use if already using Azure Blob Storage with account URL
