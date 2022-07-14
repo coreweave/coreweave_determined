@@ -38,7 +38,7 @@ db:
   # Only used for Determined DB deployment. Configures the size of the PersistentVolumeClaim for the
   # Determined deployed database, as well as the CPU and memory requirements. Should be adjusted for
   # scale.
-  
+  storageSize: 100Gi
   cpuRequest: 4
   memRequest: 16Gi
 

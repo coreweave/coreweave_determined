@@ -17,8 +17,8 @@ data:
       prefix: {{ .Values.checkpointStorage.prefix | quote }}
       {{- else if eq .Values.checkpointStorage.type "s3" }}
       bucket: {{ .Values.s3.bucket }}
-      access_key: {{ .Values.s3.accessKey | quote }}
-      secret_key: {{ .Values.s3.secretKey | quote }}
+      access_key: {{ .Values.s3.accessKey }}
+      secret_key: {{ .Values.s3.secretKey }}
       endpoint_url: {{ .Values.checkpointStorage.endpointUrl | quote }}
       prefix: {{ .Values.checkpointStorage.prefix | quote }}
       {{- else if eq .Values.checkpointStorage.type "azure" }}

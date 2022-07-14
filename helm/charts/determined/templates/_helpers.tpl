@@ -7,18 +7,7 @@
 {{- end -}}
 
 {{- define "determined.region" -}}
-{{- if .Values.region }}
-{{ .Values.region }}
-{{- else }}
-{{- default "ORD1" .Values.region }}
-{{- end -}}
-
-{{- define "determined.storageSize" -}}
-{{- if .Values.db.storageSize }}
-{{ .Values.db.storageSize }}
-{{- else }}
-{{- default "100Gi" .Values.db.storageSize }}
-{{- end -}}
+{{ .Values.region | default "ORD1" }}
 {{- end -}}
 
 {{- define "determined.cpuPodSpec" -}}
@@ -27,35 +16,15 @@ spec:
     - name: determined-cpu-container
         resources:
             requests:
-                {{- if .Values.resources.memory }}
-                memory: {{ .Values.resources.memory }}
-                {{- else }}
-                {{- default "32Gi" .Values.resources.memory }}
-                {{- end }}
-                {{- if .Values.resources.cpu }}
-                cpu: {{ .Values.resources.cpu }}
-                {{- else }}
-                {{- default "8" .Values.resources.cpu }}
-                {{- end }}
+                memory: {{ .Values.resources.memory  | default "32Gi" }}
+                cpu: {{ .Values.resources.cpu | default "8" }}
             limits:
-                {{- if .Values.resources.memory }}
-                memory: {{ .Values.resources.memory }}
-                {{- else }}
-                {{- default "32Gi" .Values.resources.memory }}
-                {{- end }}
-                {{- if .Values.resources.cpu }}
-                cpu: {{ .Values.resources.cpu }}
-                {{- else }}
-                {{- default "8" .Values.resources.cpu }}
-                {{- end }}
+                memory: {{ .Values.resources.memory | default "32Gi" }}
+                cpu: {{ .Values.resources.cpu | default "8" }}
 {{- end -}}
 
 {{- define "determined.gpuType" -}}
-{{- if .Values.resources.gpu_type }}
-{{ .Values.resources.gpu_type }}
-{{- else }}
-{{- default "RTX_A5000" .Values.resources.gpu_type }}
-{{- end -}}
+{{ .Values.resources.gpu_type | default "RTX_A5000" }}
 {{- end -}}
 
 {{- define "determined.gpuPodSpec" -}}
@@ -77,25 +46,9 @@ spec:
     - name: determined-gpu-container
         resources:
             requests:
-                {{- if .Values.resources.memory }}
-                memory: {{ .Values.resources.memory }}
-                {{- else }}
-                {{- default "32Gi" .Values.resources.memory }}
-                {{- end }}
-                {{- if .Values.resources.cpu }}
-                cpu: {{ .Values.resources.cpu }}
-                {{- else }}
-                {{- default "8" .Values.resources.cpu }}
-                {{- end }}
+                memory: {{ .Values.resources.memory  | default "32Gi" }}
+                cpu: {{ .Values.resources.cpu | default "8" }}
             limits:
-                {{- if .Values.resources.memory }}
-                memory: {{ .Values.resources.memory }}
-                {{- else }}
-                {{- default "32Gi" .Values.resources.memory }}
-                {{- end }}
-                {{- if .Values.resources.cpu }}
-                cpu: {{ .Values.resources.cpu }}
-                {{- else }}
-                {{- default "8" .Values.resources.cpu }}
-                {{- end }}
+                memory: {{ .Values.resources.memory | default "32Gi" }}
+                cpu: {{ .Values.resources.cpu | default "8" }}
 {{- end -}}

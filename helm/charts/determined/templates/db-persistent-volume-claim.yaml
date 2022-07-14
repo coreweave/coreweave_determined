@@ -13,7 +13,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: {{ include "determined.storageSize" . }}
+      storage: {{ .Values.db.storageSize }}
   {{- if .Values.db.storageClassName }}
   storageClassName: block-nvme-{{ include "determined.region" . | lower }}
   {{ end }}

@@ -85,23 +85,6 @@
             "description": "Secret Key for S3"
           }
         }
-      },
-      "db": {
-        "type": "object",
-        "form": "true",
-        "title": "DB Configuration",
-        "properties": {
-          "storageSize": {
-            "type": "string",
-            "form": "true", 
-            "title": "DB Storage Size",
-            "description": "DB Storage Size for storing code, metadata and checkpoint information.",
-            "render":"slider",
-            "sliderMin": 10,
-            "sliderMax": 1000,
-            "sliderUnit": "Gi"
-            }
-        }
       }
     },
     "title": "Values",
