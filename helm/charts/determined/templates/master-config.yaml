@@ -165,6 +165,8 @@ data:
       image:
          cpu: {{ .Values.imageRegistry }}/{{ $cpuImage }}
          gpu: {{ .Values.imageRegistry }}/{{ $gpuImage }}
+      cpu_pod_spec: {{ include "determined.cpuPodSpec" . | toJson }}
+      gpu_pod_spec: {{ include "determined.gpuPodSpec" . | toJson }}
     {{ end }}
 
     {{- if .Values.telemetry }}
