@@ -11,15 +11,15 @@ metadata:
   name: determined-master-{{ .Release.Name }}
 spec:
   rules:
-  - host: determined.{{ .Release.Namespace }}.ord1.ingress.coreweave.cloud
+  - host: {{ .Release.Name }}.{{ .Release.Namespace }}.ord1.ingress.coreweave.cloud
     http: 
       paths:
       - backend:
           serviceName: determined-master-service-{{ .Release.Name }}
-          servicePort: 8080
+          servicePort: {{ .Values.masterPort }}
         path: /
         pathType: ImplementationSpecific
   tls:
   - hosts:
-    - determined.{{ .Release.Namespace }}.ord1.ingress.coreweave.cloud
+    - {{ .Release.Name }}.{{ .Release.Namespace }}.ord1.ingress.coreweave.cloud
     secretName: determined-tls 
