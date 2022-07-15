@@ -31,11 +31,11 @@ spec:
             - key: topology.kubernetes.io/region
               operator: In
               values:
-                - {{ .Values.region }}
+                - {{ .Values.region | upper }}
             - key: gpu.nvidia.com/class
               operator: In
               values:
-                - {{ .Values.resources.gpu_type }}
+                - {{ .Values.resources.gpuType }}
   containers:
   - name: determined-container
     resources:

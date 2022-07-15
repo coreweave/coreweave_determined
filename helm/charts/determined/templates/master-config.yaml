@@ -84,53 +84,6 @@ data:
         {{- end }}
       {{- end }}
 
-    # TODO (rahul): Uncomment when ready to deploy 
-    # resource_pools:
-    #   - pool_name: a5000-pool
-    #     description: Resource pool for A5000
-    #     task_container_defaults:
-    #       gpu_pod_spec:
-    #         apiVersion: v1
-    #         kind: Pod
-    #         metadata:
-    #           labels:
-    #             customLabel: a5000-pool
-    #         spec:
-    #           affinity:
-    #             nodeAffinity:
-    #               requiredDuringSchedulingIgnoredDuringExecution:
-    #                 nodeSelectorTerms:
-    #                   - matchExpressions:
-    #                     - key: gpu.nvidia.com/class
-    #                       operator: In
-    #                       values:
-    #                         - RTX_A5000
-
-    #   - pool_name: a100-nvlink-pool
-    #     description: Resource pool for A100_NVLINK
-    #     task_container_defaults:
-    #       gpu_pod_spec:
-    #         apiVersion: v1
-    #         kind: Pod
-    #         metadata:
-    #           labels:
-    #             customLabel: a100-nvlink-pool
-    #         spec:
-    #           affinity:
-    #             nodeAffinity:
-    #               requiredDuringSchedulingIgnoredDuringExecution:
-    #                 nodeSelectorTerms:
-    #                   - matchExpressions:
-    #                     - key: gpu.nvidia.com/class
-    #                       operator: In
-    #                       values:
-    #                         - A100_NVLINK
-    #           containers:
-    #             - name: determined-a100nvlink-container
-    #               resources:
-    #                 limits:
-    #                   rdma/ib: '1'
-
     {{$cpuImage := (split "/" "determinedai/environments:py-3.8-pytorch-1.10-lightning-1.5-tf-2.8-cpu-3e933ea")._1}}
     {{- $gpuImage := (split "/" "determinedai/environments:cuda-11.3-pytorch-1.10-lightning-1.5-tf-2.8-gpu-3e933ea")._1 -}}
     task_container_defaults:

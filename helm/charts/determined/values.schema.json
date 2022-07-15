@@ -40,7 +40,7 @@
               "sliderMax": 1000,
               "sliderUnit": "Gi"
           },
-          "gpu_type": {
+          "gpuType": {
             "type": "string",
             "enum": [
               "RTX_A4000",

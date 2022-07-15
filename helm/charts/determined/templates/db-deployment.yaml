@@ -27,7 +27,7 @@ spec:
               - key: topology.kubernetes.io/region
                 operator: In
                 values:
-                - {{ .Values.region }}
+                - {{ .Values.region | upper }}
       containers:
       - name: determined-db-{{ .Release.Name }}
         image: postgres:10.14
