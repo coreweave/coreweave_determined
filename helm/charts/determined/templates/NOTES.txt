@@ -53,8 +53,3 @@ det user change-password newuser
 Example (login a user):
 
 det user login
-
-
-
-
-
