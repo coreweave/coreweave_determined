@@ -12,33 +12,13 @@ Login information:
 
 To change the password or create/add/edit users, you can do via the CLI:
 
-usage: det user [-h] subcommand ...
+Example (change password):
 
-positional arguments:
-  subcommand
-    help                show help for this command
-    activate            activate user
-    change-password     change password for user
-    create              create user
-    deactivate          deactivate user
-    link-with-agent-user
-                        link a user with UID/GID on agent
-    list                list users
-    login               log in user
-    logout              log out user
-    rename              change username for user
-    whoami              print the active user
+det user change-password admin
 
-optional arguments:
-  -h, --help            show this help message and exit
-  
 Example (create a user with admin priveleges):
 
 det user create --admin newuser (will create newuser with Admin priveleges)
-
-Example (change password):
-
-det user change-password newuser
 
 Example (login a user):
 
