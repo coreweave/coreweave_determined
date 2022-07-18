@@ -25,7 +25,6 @@
             "type": "string",
             "form":"true",
             "title": "vCPU Request",
-            "description": "Number of vCPUs to allocate to the experiment",
             "render":"slider",
             "sliderMin": 1,
             "sliderMax": 128,
@@ -35,7 +34,6 @@
               "type": "string",
               "form":"true",
               "title": "Memory Request",
-              "description": "Amount of Memory to allocate to the experiment",
               "render":"slider",
               "sliderMin": 4,
               "sliderMax": 1000,
@@ -58,7 +56,6 @@
             ],
             "form": true,
             "title": "GPU Type",
-            "description": "Please select the default GPU type for experiments"
           }
         }
       },
@@ -111,7 +108,7 @@
         "customComponent": {
           "id": "mount_selector",
           "component": "MountSelector",
-          "description": "Attach existing shared filesystem volumes to experiments by default (optional)",
+          "description": "Attach existing shared filesystem volumes to experiments by default. Volumes can be created in the Cloud Dashboard.",
           "title": "Default Filesystem Volumes",
           "mountPathPrefix": "/mnt/",
           "allowedVolumeModes": [
