@@ -1,19 +1,9 @@
-Thank you for installing {{ .Chart.Name }}. Your release is named: {{ .Release.Name }}.
-It may take several minutes for your deployment to start up.
-
-You have configured Determined to deploy the master with a Ingress attached. 
-
-
-The IP address of the Determined master is the ClusterIP of determined-master-service-{{ .Release.Name }},
-which you can lookup by running (it may take a few minutes for the ip address to be assigned):
-
-kubectl get service determined-master-service-{{ .Release.Name }} -n {{ .Release.Namespace }}
-
-Once you have the IP address, configure master address locally by running: `export DET_MASTER=<ClusterIP>:{{ .Values.masterPort }}`.
-
 To submit experiments please install the Determined CLI locally: `pip install determined`.
 
-To access the WebUI, please click: {{ .Release.Name }}.{{ .Release.Namespace }}.{{ .Values.region | lower }}.ingress.coreweave.cloud
+The client is configured to communicate with the master via an environment variable:
+`export DET_MASTER={{ .Release.Name }}.{{ .Release.Namespace }}.{{ .Values.region | lower }}.ingress.coreweave.cloud:80`.
+
+To access the WebUI, please visit: https://{{ .Release.Name }}.{{ .Release.Namespace }}.{{ .Values.region | lower }}.ingress.coreweave.cloud
 
 Login information:
 
