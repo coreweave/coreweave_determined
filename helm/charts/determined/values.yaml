@@ -144,6 +144,8 @@ taskContainerDefaults:
 telemetry:
   enabled: true
 
+s3:
+  region: ORD1
 ## Configure Prometheus endpoints for monitoring.
 # observability:
 #   enable_prometheus: true

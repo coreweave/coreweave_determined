@@ -66,6 +66,12 @@
         "type": "object",
         "form": "true",
         "title": "Object Storage Configuration",
+        "required": [
+          "bucket",
+          "accessKey",
+          "secretKey",
+          "region"
+        ],
         "properties": {
           "bucket": {
             "type": "string",
@@ -84,6 +90,17 @@
             "form": "true", 
             "title": "Secret Key",
             "description": "Secret Key for Object Storage"
+          },
+          "region": {
+            "type": "string",
+            "form": "true",
+            "title": "Region",
+            "enum": [
+              "ORD1",
+              "LAS1",
+              "LGA1"
+            ],
+            "description": "CoreWeave Region where Object Storage bucket is located"
           }
         }
       }
