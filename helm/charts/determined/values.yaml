@@ -55,12 +55,6 @@ db:
   # Determined deployed DB. By default ClusterIP is used.
   useNodePortForDB: false
 
-  # storageClassName configures the StorageClass used by the PersistentVolumeClaim for the
-  # Determined deployed database. This can be left blank if a default storage class is specified in
-  # the cluster. If dynamic provisioning of PersistentVolumes is disabled, users must manually
-  # create a PersistentVolume that will match the PersistentVolumeClaim.
-  storageClassName: block-nvme-ord1
-
   # ssl_mode and ssl_root_cert configure the TLS connection to the database. Users must first
   # create a kubernetes secret or configMap containing their certificate and specify its name in
   # certResourceName. For sslRootCert, specify the name of the file only (not path).
