@@ -1,32 +1,33 @@
-# Determined Helm Chart for CoreWeave
+![determined](https://github.com/determined-ai/determined/blob/master/determined-logo.png?raw=true)
 
-## Pre-Requisistes:
+# Determined: Deep Learning Training Platform
 
-- Retrieve your credentials and access to a VM on CoreWeave. _Please contact CoreWeave support if you are having trouble._
-- Download your ```kube_config``` and ensure you can run k8s commands in your namespace on your VM and ensure they succeed.
-- Ensure you have S3 credentials. _Please contact CoreWeave support if you are having trouble._ 
-- Create a bucket with your S3 credentials. You can use a tool called: ```s3cmd```. You can run it like this: ```s3cmd --config=your-config-location mb s3://<BUCKET_NAME>```.
+[Determined](https://www.determined.ai/) is an open-source deep learning training platform that makes building models fast and easy. Determined can be deployed directly on CoreWeave Cloud by deploying this App.
+
+## Pre-Requisistes
+
+- You will need object storage bucket on CoreWeave Object Storage for checkpoints. _Please contact CoreWeave support if you are having trouble._ 
 - Install the determined CLI via: https://docs.determined.ai/latest/interact/cli.html
 
 ## Installation
 
-- Deploy the ```determined``` Helm chart via the Application Catalog on CoreWeave cloud. _(Search for it in the Application Catalog)_
-- You need to pass in the following fields to enable determined.ai to function properly:
+The Determined application comes pre-configured with most intallations values to successfuly deploy on CoreWeave Cloud.
 
 | Helm Chart Config Value  | Description |
 | ------------- | ------------- |
-| Region | Region where you are deploying determined.  |
-| vCPU Request | Default number of vCPUs for your workloads. (default: 8) |
-| vCPU Request | Default number of vCPUs for your workloads. (default: 16Gi) |
-| GPU Type | Default GPU type for your workloads. We offer a variety of GPUs to choose from. (default: RTX_A5000) |
-| Bucket Name (S3) | <BUCKET_NAME> to use for checkpoints you created earlier. |
-| Access Key (S3) | Access Key for S3. |
-| Secret Key (S3) | Secret Key for S3. |
+| Region | Region where you are deploying determined. This should match the region where you intend to execute most of your training workloads.  |
+| vCPU Request | Default number of vCPUs for experiments, can be overriden in experiment configuration. (default: 8) |
+| Memory Request | Default memory allocation for experiemnts, can be overriden in experiment configuration. (default: 32Gi) |
+| GPU Type | Default GPU type for experiments and notebooks, can be overriden in experiment configuration. (default: RTX_A5000) |
+| Mounts | Optional default Persistent Volume mounts for experiments and notebooks, can be overriden in experiment configuration. |
+| Bucket Name (S3) | CoreWeave Object Storage Bucket Name for checkpoints |
+| Access Key (S3) | Access Key for Object Storage |
+| Secret Key (S3) | Secret Key for Object Storage |
 
 ## Connecting to determined.ai Master
 
-- On your VM, run: ```kubectl get service determined-master-service-<NAME_OF_YOUR_DETERMINED_DEPLOYMENT>``` to retrieve the ```ClusterIP```.
-- Run ```export DET_MASTER=<CLUSTER_IP>:8080``` to access the master
+- Ensure that determined CLI is installed
+- Run ```export DET_MASTER=<this value will be displayed in the post-installation notes>``` to access the master
 - Run ```det experiment list``` and ensure your output looks similar to this:
 ```
 ID   | Owner   | Name   | Parent ID   | State   | Progress   | Start Time   | End Time   | Resource Pool 
@@ -34,8 +35,8 @@ ID   | Owner   | Name   | Parent ID   | State   | Progress   | Start Time   | En
 ```
 
 ## Web UI
-- You can access the UI from CoreWeave where you launched the deployment. 
-- The default username is ```admin``` and the password field is blank. You are welcome to add/edit users and change the password from the CLI.
+- The link to the Web UI will be presented in the post-installation notes
+- The default username is ```admin``` and the password field is blank. You must edit this default password after deployment.
 
 ## Running Experiments
 
@@ -57,11 +58,14 @@ maxSlotsPerPod: 8
 
 ### Running a custom training job
 
-**Example (Running multi-node GPU training):**
+**Multi-node GPU training using default GPU**
+
+This will run over two physical nodes with 8 GPUs each.
 
 _Note the ```slots_per_trial: 16```_
 
-```
+
+```yaml
 name: fashion_mnist_tf_keras_distributed
 hyperparameters:
   global_batch_size: 256
@@ -79,17 +83,19 @@ searcher:
 entrypoint: model_def:FashionMNISTTrial
 ```
 
-**Example (Running multi-node GPU training using custom affinities/region):**
+**Multi-node GPU training using custom GPU selection**
+
+This will run over four physical nodes with 8 GPUs each, on NVIDIA A40 GPUs in the ORD1 region.
 
 _Note that per-GPU batch size =  ```global_batch_size // slots_per_trial = 16```_
 
-```
+```yaml
 name: fashion_mnist_tf_keras_distributed
 hyperparameters:
-  global_batch_size: 256
+  global_batch_size: 512
   dense1: 128
 resources:
-  slots_per_trial: 16
+  slots_per_trial: 32
 records_per_epoch: 600
 environment:
   pod_spec:
@@ -102,7 +108,7 @@ environment:
                   - key: gpu.nvidia.com/class
                     operator: In
                     values:
-                      - RTX_A5000
+                      - A40
                   - key: topology.kubernetes.io/region
                     operator: In
                     values:
@@ -116,17 +122,19 @@ searcher:
 entrypoint: model_def:FashionMNISTTrial
 ```
 
-**Example (Running multi-node GPU training using custom affinities/region and RDMA/Infiniband):**
+**Running multi-node GPU training using A100 NVLINK with Infiniband RDMA**
+
+This will run over 12 physical nodes with 8 GPUs each, on A100 NVLINKs in the ORD1 region. Please note that custom Docker images are strongly recommended for proper Infiniband performance. CoreWeave provides a [repository with template Dockerfile](https://github.com/coreweave/nccl-tests) for customers to base their own images on.
 
 _Note that per-GPU batch size =  ```global_batch_size // slots_per_trial = 16```_
 
-```
+```yaml
 name: fashion_mnist_tf_keras_distributed
 hyperparameters:
-  global_batch_size: 256
+  global_batch_size: 1536
   dense1: 128
 resources:
-  slots_per_trial: 16
+  slots_per_trial: 96
 records_per_epoch: 600
 environment:
   pod_spec:
@@ -160,12 +168,12 @@ entrypoint: model_def:FashionMNISTTrial
 
 ## Mounting a PVC
 
-- This allows you to deploy your training workload on a large amount of data that might be slow to fetch via S3 (network latency).
-- This [document](https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/) provides all the necessary information required to create a PersistentVolume and PersistentVolumeClaim. 
-- Ensure you use the right ```storageClassName```
+- This allows you to deploy your training workload on a large amount of data that might not be optimal to fetch from object storage.
+- Refer to the [CoreWeave Storage Documentation](https://docs.coreweave.com/coreweave-kubernetes/storage#available-storage-types) on how to allocate storage volumes
+- Ensure that the storage volume is in the same region as the experiment you are running.
 - You can add your PVC to your ```pod_spec```. Here is an example:
 
-```
+```yaml
 name: fashion_mnist_tf_keras_distributed
 hyperparameters:
   global_batch_size: 256
@@ -177,7 +185,7 @@ environment:
   pod_spec:
     spec:
       volumes:
-        - name: <VOLUME_NAME>
+        - name: data
         persistentVolumeClaim:
           claimName: <PERSISTENT_VOLUME_CLAIM_NAME>
       affinity:
@@ -195,8 +203,8 @@ environment:
                       - ORD1
       containers:
         volumeMounts:
-          - mountPath: "<PATH_TO_MOUNT_TO_INGEST_TRAINING_DATA>"
-            name: <VOLUME_NAME>
+          - mountPath: "/data" # Path inside the container where you want the volume to mount to
+            name: data
 searcher:
   name: single
   metric: val_accuracy

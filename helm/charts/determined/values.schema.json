@@ -25,7 +25,6 @@
             "type": "string",
             "form":"true",
             "title": "vCPU Request",
-            "description": "Amount of CPU to provide",
             "render":"slider",
             "sliderMin": 1,
             "sliderMax": 128,
@@ -35,7 +34,6 @@
               "type": "string",
               "form":"true",
               "title": "Memory Request",
-              "description": "Amount of Memory to provide",
               "render":"slider",
               "sliderMin": 4,
               "sliderMax": 1000,
@@ -57,34 +55,65 @@
               "Quadro_RTX_4000"
             ],
             "form": true,
-            "title": "GPU Type",
-            "description": "Please select the default GPU type for your workloads."
+            "title": "GPU Type"
           }
         }
       },
       "s3": {
         "type": "object",
         "form": "true",
-        "title": "S3 Configuration",
+        "title": "Object Storage Configuration",
+        "required": [
+          "bucket",
+          "accessKey",
+          "secretKey",
+          "region"
+        ],
         "properties": {
           "bucket": {
             "type": "string",
             "form": "true", 
             "title": "Bucket Name",
-            "description": "S3 is used for storage of model checkpoints and optionally for training data."
+            "description": "Object Storage bucket used for storage of model checkpoints and optionally for training data"
           },
           "accessKey": {
             "type": "string",
             "form": "true", 
             "title": "Access Key",
-            "description": "Access Key for S3"
+            "description": "Access Key for Object Storage"
           },
           "secretKey": {
             "type": "string",
             "form": "true", 
             "title": "Secret Key",
-            "description": "Secret Key for S3"
+            "description": "Secret Key for Object Storage"
+          },
+          "region": {
+            "type": "string",
+            "form": "true",
+            "title": "Region",
+            "enum": [
+              "ORD1",
+              "LAS1",
+              "LGA1"
+            ],
+            "description": "CoreWeave Region where Object Storage bucket is located"
           }
+        }
+      },
+      "mounts": {
+        "type": "array",
+        "title": "Experiment Mounts",
+        "form": true,
+        "customComponent": {
+          "id": "mount_selector",
+          "component": "MountSelector",
+          "description": "Attach existing shared filesystem volumes to experiments by default. Volumes can be created in the Cloud Dashboard.",
+          "title": "Default Filesystem Volumes",
+          "mountPathPrefix": "/mnt/",
+          "allowedVolumeModes": [
+            "Filesystem"
+          ]
         }
       }
     },

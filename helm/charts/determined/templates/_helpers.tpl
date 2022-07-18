@@ -45,4 +45,20 @@ spec:
       limits:
         memory: {{ .Values.resources.memory }}
         cpu: {{ .Values.resources.cpu }}
+      {{- if or (eq .Values.resources.gpuType "A100_NVLINK") (eq .Values.resources.gpuType "A100_NVLINK_80GB") }}
+        rdma/ib: '1'
+      {{- end }}
+  {{- if gt (len .Values.mounts) 0 }}
+    volumeMounts:
+      {{- range .Values.mounts }}
+      - name: {{ regexReplaceAll "[_]" .pvc "-" | lower }}
+        mountPath: {{ .name }}
+      {{- end }}
+  volumes:
+    {{- range .Values.mounts }}
+    - name: {{ regexReplaceAll "[_]" .pvc "-" | lower }}
+      persistentVolumeClaim:
+        claimName: {{ .pvc }}
+    {{- end }}
+  {{- end -}}
 {{- end -}}

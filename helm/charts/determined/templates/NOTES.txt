@@ -1,19 +1,9 @@
-Thank you for installing {{ .Chart.Name }}. Your release is named: {{ .Release.Name }}.
-It may take several minutes for your deployment to start up.
-
-You have configured Determined to deploy the master with a Ingress attached. 
-
-
-The IP address of the Determined master is the ClusterIP of determined-master-service-{{ .Release.Name }},
-which you can lookup by running (it may take a few minutes for the ip address to be assigned):
-
-kubectl get service determined-master-service-{{ .Release.Name }} -n {{ .Release.Namespace }}
-
-Once you have the IP address, configure master address locally by running: `export DET_MASTER=<ClusterIP>:{{ .Values.masterPort }}`.
-
 To submit experiments please install the Determined CLI locally: `pip install determined`.
 
-To access the WebUI, please click: {{ .Release.Name }}.{{ .Release.Namespace }}.{{ .Values.region | lower }}.ingress.coreweave.cloud
+The client is configured to communicate with the master via an environment variable:
+export DET_MASTER=https://{{ .Release.Name }}.{{ .Release.Namespace }}.{{ .Values.region | lower }}.ingress.coreweave.cloud
+
+To access the WebUI, please visit: https://{{ .Release.Name }}.{{ .Release.Namespace }}.{{ .Values.region | lower }}.ingress.coreweave.cloud
 
 Login information:
 
@@ -22,33 +12,13 @@ Login information:
 
 To change the password or create/add/edit users, you can do via the CLI:
 
-usage: det user [-h] subcommand ...
+Example (change password):
 
-positional arguments:
-  subcommand
-    help                show help for this command
-    activate            activate user
-    change-password     change password for user
-    create              create user
-    deactivate          deactivate user
-    link-with-agent-user
-                        link a user with UID/GID on agent
-    list                list users
-    login               log in user
-    logout              log out user
-    rename              change username for user
-    whoami              print the active user
+det user change-password admin
 
-optional arguments:
-  -h, --help            show this help message and exit
-  
 Example (create a user with admin priveleges):
 
 det user create --admin newuser (will create newuser with Admin priveleges)
-
-Example (change password):
-
-det user change-password newuser
 
 Example (login a user):
 
