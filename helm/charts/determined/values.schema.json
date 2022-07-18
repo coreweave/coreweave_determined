@@ -18,13 +18,14 @@
       "resources": {
         "type": "object",
         "title": "Default Resources",
+        "description": "Experiments will launch with these default resource assignments by default. GPU type, CPU and Memory request can be overridden in the experiment configuration.",
         "form": true,
         "properties": {
           "cpu": {
             "type": "string",
             "form":"true",
             "title": "vCPU Request",
-            "description": "Amount of CPU to provide",
+            "description": "Number of vCPUs to allocate to the experiment",
             "render":"slider",
             "sliderMin": 1,
             "sliderMax": 128,
@@ -34,7 +35,7 @@
               "type": "string",
               "form":"true",
               "title": "Memory Request",
-              "description": "Amount of Memory to provide",
+              "description": "Amount of Memory to allocate to the experiment",
               "render":"slider",
               "sliderMin": 4,
               "sliderMax": 1000,
@@ -57,32 +58,32 @@
             ],
             "form": true,
             "title": "GPU Type",
-            "description": "Please select the default GPU type for your workloads."
+            "description": "Please select the default GPU type for experiments"
           }
         }
       },
       "s3": {
         "type": "object",
         "form": "true",
-        "title": "S3 Configuration",
+        "title": "Object Storage Configuration",
         "properties": {
           "bucket": {
             "type": "string",
             "form": "true", 
             "title": "Bucket Name",
-            "description": "S3 is used for storage of model checkpoints and optionally for training data."
+            "description": "Object Storage bucket used for storage of model checkpoints and optionally for training data"
           },
           "accessKey": {
             "type": "string",
             "form": "true", 
             "title": "Access Key",
-            "description": "Access Key for S3"
+            "description": "Access Key for Object Storage"
           },
           "secretKey": {
             "type": "string",
             "form": "true", 
             "title": "Secret Key",
-            "description": "Secret Key for S3"
+            "description": "Secret Key for Object Storage"
           }
         }
       }
