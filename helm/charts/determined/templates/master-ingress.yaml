@@ -22,4 +22,4 @@ spec:
   tls:
   - hosts:
     - {{ .Release.Name }}.{{ .Release.Namespace }}.{{ .Values.region | lower }}.ingress.coreweave.cloud
-    secretName: determined-tls 
+    secretName: determined-master-{{ .Release.Name }}
