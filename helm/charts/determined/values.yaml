@@ -146,6 +146,8 @@ telemetry:
 
 s3:
   region: ORD1
+
+mounts: []
 ## Configure Prometheus endpoints for monitoring.
 # observability:
 #   enable_prometheus: true

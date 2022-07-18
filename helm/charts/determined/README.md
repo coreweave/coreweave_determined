@@ -17,8 +17,9 @@ The Determined application comes pre-configured with most intallations values to
 | ------------- | ------------- |
 | Region | Region where you are deploying determined. This should match the region where you intend to execute most of your training workloads.  |
 | vCPU Request | Default number of vCPUs for experiments, can be overriden in experiment configuration. (default: 8) |
-| Memory Request | Default memory allocation for experiemnts, can be overriden in experiment configuration (default: 32Gi) |
+| Memory Request | Default memory allocation for experiemnts, can be overriden in experiment configuration. (default: 32Gi) |
 | GPU Type | Default GPU type for experiments and notebooks, can be overriden in experiment configuration. (default: RTX_A5000) |
+| Mounts | Optional default Persistent Volume mounts for experiments and notebooks, can be overriden in experiment configuration. |
 | Bucket Name (S3) | CoreWeave Object Storage Bucket Name for checkpoints |
 | Access Key (S3) | Access Key for Object Storage |
 | Secret Key (S3) | Secret Key for Object Storage |

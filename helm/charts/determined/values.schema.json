@@ -103,6 +103,21 @@
             "description": "CoreWeave Region where Object Storage bucket is located"
           }
         }
+      },
+      "mounts": {
+        "type": "array",
+        "title": "Experiment Mounts",
+        "form": true,
+        "customComponent": {
+          "id": "mount_selector",
+          "component": "MountSelector",
+          "description": "Attach existing shared filesystem volumes to experiments by default (optional)",
+          "title": "Default Filesystem Volumes",
+          "mountPathPrefix": "/mnt/",
+          "allowedVolumeModes": [
+            "Filesystem"
+          ]
+        }
       }
     },
     "title": "Values",
