@@ -1,7 +1,7 @@
 name: gpt-neox-zero1-3d-parallel
 debug: false
 profiling:
-    enabled: false
+    enabled: true
     begin_on_batch: 50
     end_after_batch: 100
     sync_timings: true
@@ -9,28 +9,45 @@ hyperparameters:
   search_world_size: false
   conf_dir: /gpt-neox/configs
   conf_file:
-      - medium.yml
       - determined_cluster.yml
-  overwrite_values:
-     pipe_parallel_size: 2
-     model_parallel_size: 2
-     partition_activations: false
-     train_batch_size: 32
-     train_micro_batch_size_per_gpu: 4
   wandb_group: null
   wandb_team: null
   user_script: null
   eval_tasks: null
 environment:
-    environment_variables:
-        - NCCL_DEBUG=INFO
-        # You may need to modify this to match your network configuration.
-        - NCCL_SOCKET_IFNAME=ens,eth,ib
-    force_pull_image: true
-    image:
-      gpu: liamdetermined/gpt-neox
+  environment_variables:
+      - NCCL_DEBUG=INFO
+      # You may need to modify this to match your network configuration.
+      - NCCL_SOCKET_IFNAME=ens,eth,ib
+  force_pull_image: true
+  image:
+    gpu: liamdetermined/gpt-neox
+  pod_spec:
+    spec:
+      volumes:
+        - name: pvc-e229485f-a93b-4605-aac5-c616d9b2c3ce
+          persistentVolumeClaim:
+            claimName: gpt-neox-claim-2
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: gpu.nvidia.com/class
+                    operator: In
+                    values:
+                      - A40
+                  - key: topology.kubernetes.io/region
+                    operator: In
+                    values:
+                      - ORD1
+      containers:
+        - name: determined-container
+          volumeMounts:
+          - mountPath: "/run/determined/workdir/shared_fs"
+            name: pvc-e229485f-a93b-4605-aac5-c616d9b2c3ce
 resources:
-  slots_per_trial: 8
+  slots_per_trial: 96
 searcher:
   name: single
   metric: lm_loss

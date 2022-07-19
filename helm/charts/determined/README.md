@@ -194,6 +194,7 @@ environment:
                     values:
                       - ORD1
       containers:
+        - name: determined-container
         volumeMounts:
           - mountPath: "<PATH_TO_MOUNT_TO_INGEST_TRAINING_DATA>"
             name: <VOLUME_NAME>
