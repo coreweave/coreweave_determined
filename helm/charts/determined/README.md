@@ -202,6 +202,7 @@ environment:
                     values:
                       - ORD1
       containers:
+        - name: determined-container
         volumeMounts:
           - mountPath: "/data" # Path inside the container where you want the volume to mount to
             name: data
