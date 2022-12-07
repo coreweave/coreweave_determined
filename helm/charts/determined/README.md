@@ -27,6 +27,7 @@ The Determined application comes pre-configured with most intallations values to
 | vCPU Request | Default number of vCPUs for experiments, can be overriden in experiment configuration. (default: 8) |
 | Memory Request | Default memory allocation for experiemnts, can be overriden in experiment configuration. (default: 32Gi) |
 | GPU Type | Default GPU type for experiments and notebooks, can be overriden in experiment configuration. (default: RTX_A5000) |
+| K8s Scheduler | Default Scheduler type for experiments and notebooks, can be overriden in experiment configuration. (default: default-scheduler) |
 | Mounts | Optional default Persistent Volume mounts for experiments and notebooks, can be overriden in experiment configuration. |
 | Bucket Name (S3) | CoreWeave Object Storage Bucket Name for checkpoints |
 | Access Key (S3) | Access Key for Object Storage |
