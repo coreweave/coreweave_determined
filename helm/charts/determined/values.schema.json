@@ -15,6 +15,15 @@
           "component": "RegionSelector"
         }
       },
+      "defaultScheduler": {
+        "type": "string",
+        "enum": [
+          "default-scheduler",
+          "coscheduler"
+        ],
+        "form": true,
+        "title": "K8s Scheduler"
+      },
       "resources": {
         "type": "object",
         "title": "Default Resources",
@@ -56,15 +65,6 @@
             ],
             "form": true,
             "title": "GPU Type"
-          },
-          "defaultScheduler": {
-            "type": "string",
-            "enum": [
-              "default-scheduler",
-              "coscheduler"
-            ],
-            "form": true,
-            "title": "K8s Scheduler"
           }
         }
       },
