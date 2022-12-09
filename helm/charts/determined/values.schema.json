@@ -22,7 +22,7 @@
           "coscheduler"
         ],
         "form": true,
-        "title": "K8s Scheduler"
+        "title": "Scheduler"
       },
       "resources": {
         "type": "object",
