@@ -14,3 +14,4 @@ furo==2021.10.9
 
 # live.py
 watchdog
+black>=24.3.0 # not directly required, pinned by Snyk to avoid a vulnerability
