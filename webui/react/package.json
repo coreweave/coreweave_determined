@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "ansi-to-html": "^0.7.1",
-    "antd": "^4.16.13",
+    "antd": "^5.0.1",
     "dayjs": "^1.10.7",
     "fp-ts": "^2.11.2",
     "fuse.js": "^6.4.6",
@@ -37,7 +37,7 @@
     "omnibar": "github:hamidzr/omnibar",
     "portable-fetch": "^3.0.0",
     "pretty-bytes": "^5.6.0",
-    "query-string": "^7.0.1",
+    "query-string": "^7.1.3",
     "react": "^17.0.2",
     "react-dnd": "^15.1.1",
     "react-dnd-html5-backend": "^15.1.2",
