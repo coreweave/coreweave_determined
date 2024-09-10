@@ -45,7 +45,7 @@
     "react-draggable": "^4.4.4",
     "react-helmet-async": "^1.1.2",
     "react-monaco-editor": "^0.44.0",
-    "react-router-dom": "^5.3.0",
+    "react-router-dom": "^6.0.0",
     "react-transition-group": "^4.4.2",
     "react-window": "^1.8.6",
     "screenfull": "^5.1.0",
